@@ -1,12 +1,14 @@
 #!/usr/bin/env node
 /**
- * Varre as pastas midia/fotos, midia/videos e midia/logo e gera assets/media.js
- * com a lista completa de arquivos encontrados.
+ * Varre as pastas midia/fotos, midia/videos e midia/logo e gera a lista
+ * completa de arquivos encontrados, em dois formatos:
+ *
+ *   assets/media.json  lido pelo site com cache desligado (fonte da verdade
+ *                      online: uma foto nova aparece no primeiro refresh)
+ *   assets/media.js    mesma lista como <script>, usada quando o index.html
+ *                      e aberto direto do disco (file://), onde fetch nao vale
  *
  * Uso: node scripts/gerar-midia.js
- *
- * O arquivo gerado e carregado pelo index.html via <script>, entao o site
- * funciona tanto no GitHub Pages quanto abrindo o index.html direto no navegador.
  */
 
 const fs = require('fs');
@@ -16,7 +18,8 @@ const RAIZ = path.resolve(__dirname, '..');
 const PASTA_FOTOS = path.join(RAIZ, 'midia', 'fotos');
 const PASTA_VIDEOS = path.join(RAIZ, 'midia', 'videos');
 const PASTA_LOGO = path.join(RAIZ, 'midia', 'logo');
-const SAIDA = path.join(RAIZ, 'assets', 'media.js');
+const SAIDA_JS = path.join(RAIZ, 'assets', 'media.js');
+const SAIDA_JSON = path.join(RAIZ, 'assets', 'media.json');
 
 const EXT_FOTO = ['.jpg', '.jpeg', '.png', '.webp', '.gif', '.avif', '.bmp', '.heic', '.heif'];
 const EXT_VIDEO = ['.mp4', '.webm', '.ogg', '.ogv', '.mov', '.m4v', '.3gp', '.mkv'];
@@ -80,16 +83,18 @@ const midia = {
   videos: listar(PASTA_VIDEOS, EXT_VIDEO),
 };
 
-const conteudo =
-  '/* Arquivo gerado automaticamente por scripts/gerar-midia.js — nao edite a mao. */\n' +
-  'window.MIDIA = ' +
-  JSON.stringify(midia, null, 2) +
-  ';\n';
+const json = JSON.stringify(midia, null, 2);
 
-fs.mkdirSync(path.dirname(SAIDA), { recursive: true });
-fs.writeFileSync(SAIDA, conteudo, 'utf8');
+fs.mkdirSync(path.dirname(SAIDA_JS), { recursive: true });
+fs.writeFileSync(SAIDA_JSON, json + '\n', 'utf8');
+fs.writeFileSync(
+  SAIDA_JS,
+  '/* Arquivo gerado automaticamente por scripts/gerar-midia.js — nao edite a mao. */\n' +
+    'window.MIDIA = ' + json + ';\n',
+  'utf8'
+);
 
 console.log(`Logo:   ${midia.logo || '(nenhum encontrado em midia/logo)'}`);
 console.log(`Fotos:  ${midia.fotos.length}`);
 console.log(`Videos: ${midia.videos.length}`);
-console.log(`Gerado: ${path.relative(RAIZ, SAIDA)}`);
+console.log('Gerado: assets/media.json e assets/media.js');

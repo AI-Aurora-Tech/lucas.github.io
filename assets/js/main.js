@@ -5,8 +5,34 @@
 (function () {
   'use strict';
 
-  var MIDIA = window.MIDIA || { logo: null, fotos: [], videos: [] };
   var NASCIMENTO = { ano: 2011, mes: 3, dia: 10 }; // 10/03/2011
+
+  /**
+   * A lista de mídia vem do assets/media.json, buscado com o cache desligado:
+   * o GitHub Pages guarda os arquivos por 10 minutos no navegador, e sem isso
+   * uma foto recém-enviada só apareceria depois desse tempo. Se o fetch não
+   * estiver disponível (index.html aberto direto do disco, em file://), vale a
+   * lista do assets/media.js, carregado pela tag <script> do index.html.
+   */
+  function carregarMidia() {
+    var reserva = window.MIDIA || { logo: null, fotos: [], videos: [] };
+    var naWeb = location.protocol === 'http:' || location.protocol === 'https:';
+
+    if (!naWeb || typeof window.fetch !== 'function') {
+      return Promise.resolve(reserva);
+    }
+
+    return fetch('assets/media.json', { cache: 'no-store' })
+      .then(function (resposta) {
+        return resposta.ok ? resposta.json() : reserva;
+      })
+      .then(function (dados) {
+        return dados && dados.fotos && dados.videos ? dados : reserva;
+      })
+      .catch(function () {
+        return reserva;
+      });
+  }
 
   /* ---------- Idade automática ---------- */
   function calcularIdade() {
@@ -28,10 +54,11 @@
     el.textContent = new Date().getFullYear();
   });
 
-  /* ---------- Logo vindo do media.js (caso tenha outra extensão) ---------- */
-  if (MIDIA.logo) {
+  /* ---------- Logo apontado pela lista (caso tenha outra extensão) ---------- */
+  function aplicarLogo(caminho) {
+    if (!caminho) return;
     document.querySelectorAll('.topo__logo, .hero__logo').forEach(function (img) {
-      img.setAttribute('src', MIDIA.logo);
+      if (img.getAttribute('src') !== caminho) img.setAttribute('src', caminho);
     });
   }
 
@@ -237,7 +264,11 @@
     return div.innerHTML;
   }
 
-  montarCarrossel(MIDIA.videos || []);
-  montarGaleria(MIDIA.fotos || []);
   revelarSecoes();
+
+  carregarMidia().then(function (midia) {
+    aplicarLogo(midia.logo);
+    montarCarrossel(midia.videos || []);
+    montarGaleria(midia.fotos || []);
+  });
 })();

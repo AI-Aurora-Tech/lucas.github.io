@@ -51,7 +51,7 @@ https://ai-aurora-tech.github.io/portfolio-LG/
 ## Vendo o site no computador (opcional)
 
 ```bash
-node scripts/gerar-midia.js   # lê as pastas de mídia e gera assets/media.js
+node scripts/gerar-midia.js   # lê as pastas de mídia e gera a lista de arquivos
 ```
 
 Depois é só abrir o `index.html` no navegador. Para um resultado mais fiel ao
@@ -69,6 +69,19 @@ acontece automaticamente a cada publicação.
 > principal, atualize essa lista.
 
 ---
+
+## A foto ou o vídeo novo não apareceu?
+
+A lista de arquivos é lida com o cache desligado, então um upload novo aparece
+já no primeiro refresh. Se ainda assim faltar algo, confira nesta ordem:
+
+1. Em **Actions**, se a última execução de *Publicar site* terminou com o visto
+   verde. O log do passo *Gerar lista de fotos e vídeos* mostra quantas fotos e
+   vídeos foram encontrados — é o número que o site vai exibir.
+2. Se o arquivo está na pasta certa (`midia/fotos` ou `midia/videos`) e com uma
+   extensão suportada.
+3. Se o vídeo é `.mp4` com H.264 (o padrão do WhatsApp). `.mov` do iPhone só
+   abre no Safari — veja a conversão abaixo.
 
 ## Limites de tamanho do GitHub
 
@@ -115,7 +128,8 @@ var NASCIMENTO = { ano: 2011, mes: 3, dia: 10 }; // 10/03/2011
 index.html                        página do site (todos os textos ficam aqui)
 assets/css/style.css              estilos, incluindo o campo de futebol de fundo
 assets/js/main.js                 idade automática, carrossel e galeria
-assets/media.js                   lista de arquivos (gerado — não edite)
+assets/media.json                 lista de arquivos (gerado — não edite)
+assets/media.js                   a mesma lista, usada ao abrir o site do disco
 scripts/gerar-midia.js            varre as pastas de mídia e gera o media.js
 midia/logo/Logo.jpeg              logo do portfólio
 midia/fotos/                      fotos
