@@ -6,7 +6,9 @@ name: Publicar site
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
+      - claude/soccer-player-portfolio-9k2i21
   workflow_dispatch:
 
 permissions:

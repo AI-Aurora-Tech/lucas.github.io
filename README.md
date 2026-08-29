@@ -39,8 +39,8 @@ Uma única vez, para ligar o site:
 1. No repositório, vá em **Settings → Pages**
 2. Em **Source**, escolha **GitHub Actions**
 
-Pronto. A cada envio para a branch `main`, o GitHub Actions varre as pastas de
-mídia, regenera a lista de arquivos e publica o site em:
+Pronto. A cada envio para a branch principal do repositório, o GitHub Actions
+varre as pastas de mídia, regenera a lista de arquivos e publica o site em:
 
 ```
 https://ai-aurora-tech.github.io/portfolio-LG/
@@ -63,6 +63,10 @@ python3 -m http.server 8000   # depois acesse http://localhost:8000
 
 Rode o `gerar-midia.js` sempre que adicionar arquivos localmente. No GitHub isso
 acontece automaticamente a cada publicação.
+
+> As branches que disparam a publicação estão listadas em
+> `.github/workflows/deploy.yml`, no campo `branches`. Se você renomear a branch
+> principal, atualize essa lista.
 
 ---
 
