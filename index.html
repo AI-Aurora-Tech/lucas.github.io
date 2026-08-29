@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lucas Gabriel Silva dos Santos — Portfólio</title>
+<meta name="description" content="Portfólio esportivo de Lucas Gabriel Silva dos Santos: vídeos, fotos, características, times e torneios.">
+<meta name="theme-color" content="#04120b">
+<meta property="og:title" content="Lucas Gabriel Silva dos Santos — Portfólio">
+<meta property="og:description" content="Vídeos, fotos e informações do atleta.">
+<meta property="og:type" content="profile">
+<link rel="icon" href="midia/logo/Logo.jpeg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<!-- Fundo: campo de futebol visto de cima -->
+<div class="campo" aria-hidden="true">
+  <svg viewBox="0 0 1050 680" preserveAspectRatio="xMidYMid slice" role="presentation">
+    <defs>
+      <pattern id="listras" width="150" height="680" patternUnits="userSpaceOnUse">
+        <rect width="75" height="680" fill="#0f7a41"/>
+        <rect x="75" width="75" height="680" fill="#0c6b39"/>
+      </pattern>
+      <radialGradient id="luz" cx="50%" cy="38%" r="72%">
+        <stop offset="0%" stop-color="#1a9a55" stop-opacity=".55"/>
+        <stop offset="100%" stop-color="#02110a" stop-opacity=".92"/>
+      </radialGradient>
+    </defs>
+
+    <rect width="1050" height="680" fill="url(#listras)"/>
+
+    <g fill="none" stroke="#ffffff" stroke-opacity=".62" stroke-width="3">
+      <rect x="35" y="35" width="980" height="610"/>
+      <line x1="525" y1="35" x2="525" y2="645"/>
+      <circle cx="525" cy="340" r="91"/>
+      <!-- grandes áreas -->
+      <rect x="35" y="139" width="165" height="402"/>
+      <rect x="850" y="139" width="165" height="402"/>
+      <!-- pequenas áreas -->
+      <rect x="35" y="249" width="55" height="182"/>
+      <rect x="960" y="249" width="55" height="182"/>
+      <!-- meias-luas -->
+      <path d="M200 267 a 91 91 0 0 0 0 146"/>
+      <path d="M850 267 a 91 91 0 0 1 0 146"/>
+      <!-- escanteios -->
+      <path d="M35 55 a 20 20 0 0 0 20 -20"/>
+      <path d="M995 35 a 20 20 0 0 0 20 20"/>
+      <path d="M35 625 a 20 20 0 0 1 20 20"/>
+      <path d="M995 645 a 20 20 0 0 1 20 -20"/>
+    </g>
+
+    <g fill="#ffffff" fill-opacity=".62">
+      <circle cx="525" cy="340" r="6"/>
+      <circle cx="145" cy="340" r="6"/>
+      <circle cx="905" cy="340" r="6"/>
+    </g>
+
+    <rect width="1050" height="680" fill="url(#luz)"/>
+  </svg>
+</div>
+
+<header class="topo">
+  <a class="topo__marca" href="#inicio">
+    <img src="midia/logo/Logo.jpeg" alt="Logo" class="topo__logo" onerror="this.remove()">
+    <span>Lucas Gabriel</span>
+  </a>
+  <nav class="topo__nav">
+    <a href="#perfil">Perfil</a>
+    <a href="#trajetoria">Trajetória</a>
+    <a href="#videos">Vídeos</a>
+    <a href="#fotos">Fotos</a>
+  </nav>
+</header>
+
+<main id="inicio">
+
+  <!-- ================= HERO ================= -->
+  <section class="hero">
+    <div class="hero__logo-wrap">
+      <img src="midia/logo/Logo.jpeg" alt="Logo de Lucas Gabriel Silva dos Santos" class="hero__logo"
+           onerror="this.closest('.hero__logo-wrap').classList.add('is-vazio')">
+      <p class="hero__logo-aviso">Coloque o arquivo <code>Logo.jpeg</code> em <code>midia/logo/</code></p>
+    </div>
+
+    <p class="hero__olho">Atleta · Futebol de campo</p>
+    <h1 class="hero__nome">Lucas Gabriel<br><span>Silva dos Santos</span></h1>
+    <p class="hero__posicoes">Zagueiro · Lateral · Volante · Meia · Atacante</p>
+
+    <ul class="hero__stats">
+      <li><strong data-idade>—</strong><span>anos</span></li>
+      <li><strong>1,75</strong><span>metros</span></li>
+      <li><strong>58</strong><span>kg</span></li>
+      <li><strong>Direita</strong><span>perna boa</span></li>
+    </ul>
+
+    <div class="hero__acoes">
+      <a class="botao botao--destaque" href="#videos">Ver vídeos</a>
+      <a class="botao" href="#trajetoria">Trajetória</a>
+    </div>
+  </section>
+
+  <!-- ================= PERFIL ================= -->
+  <section id="perfil" class="secao">
+    <h2 class="secao__titulo"><span>01</span> Perfil do atleta</h2>
+
+    <div class="cards">
+      <div class="card">
+        <h3 class="card__titulo">Dados pessoais</h3>
+        <dl class="dados">
+          <div><dt>Nome completo</dt><dd>Lucas Gabriel Silva dos Santos</dd></div>
+          <div><dt>Idade</dt><dd><span data-idade>—</span> anos</dd></div>
+          <div><dt>Data de nascimento</dt><dd>10/03/2011</dd></div>
+          <div><dt>Altura</dt><dd>1,75 m</dd></div>
+          <div><dt>Peso</dt><dd>58 kg</dd></div>
+        </dl>
+      </div>
+
+      <div class="card">
+        <h3 class="card__titulo">Características técnicas</h3>
+        <dl class="dados">
+          <div><dt>Perna boa</dt><dd>Direita</dd></div>
+          <div><dt>Categoria</dt><dd>Sub-15 / Sub-17</dd></div>
+          <div><dt>Situação</dt><dd>Federado</dd></div>
+        </dl>
+        <p class="card__rotulo">Posições que joga</p>
+        <ul class="chips">
+          <li>Zagueiro</li>
+          <li>Lateral</li>
+          <li>Volante</li>
+          <li>Meia</li>
+          <li>Atacante</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= TRAJETÓRIA ================= -->
+  <section id="trajetoria" class="secao">
+    <h2 class="secao__titulo"><span>02</span> Trajetória</h2>
+
+    <div class="cards">
+      <div class="card">
+        <h3 class="card__titulo">Times que atuou</h3>
+        <ul class="lista lista--times">
+          <li><strong>Martinica</strong></li>
+          <li><strong>Pitangueiras</strong></li>
+          <li><strong>Valinhos</strong><em>Federado</em></li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3 class="card__titulo">Torneios disputados</h3>
+        <ul class="lista">
+          <li>Pré Paulistão</li>
+          <li>Paulista U15</li>
+          <li>Paulista U17</li>
+          <li>União Cup</li>
+          <li>Paulistinha Cup</li>
+          <li>Taça Cidade São Paulo</li>
+        </ul>
+      </div>
+
+      <div class="card card--titulo-ganho">
+        <h3 class="card__titulo">Títulos conquistados</h3>
+        <ul class="lista lista--tacas">
+          <li>
+            <span class="taca" aria-hidden="true">🏆</span>
+            <strong>Paulistinha Cup</strong>
+            <em>Sub-15 · 2026 · Campeão</em>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= VÍDEOS ================= -->
+  <section id="videos" class="secao">
+    <h2 class="secao__titulo"><span>03</span> Vídeos</h2>
+    <p class="secao__apoio">Todos os vídeos da pasta <code>midia/videos/</code>, em carrossel.</p>
+
+    <div class="carrossel" data-carrossel hidden>
+      <button class="carrossel__seta carrossel__seta--ant" type="button" data-anterior aria-label="Vídeo anterior">‹</button>
+
+      <div class="carrossel__janela">
+        <div class="carrossel__trilho" data-trilho></div>
+      </div>
+
+      <button class="carrossel__seta carrossel__seta--prox" type="button" data-proximo aria-label="Próximo vídeo">›</button>
+
+      <div class="carrossel__rodape">
+        <span class="carrossel__contador" data-contador>1 / 1</span>
+        <div class="carrossel__pontos" data-pontos></div>
+      </div>
+    </div>
+
+    <p class="vazio" data-vazio-videos>
+      Nenhum vídeo ainda. Suba os arquivos em <code>midia/videos/</code> que eles aparecem aqui automaticamente.
+    </p>
+  </section>
+
+  <!-- ================= FOTOS ================= -->
+  <section id="fotos" class="secao">
+    <h2 class="secao__titulo"><span>04</span> Fotos</h2>
+    <p class="secao__apoio">Todas as fotos da pasta <code>midia/fotos/</code>. Clique para ampliar.</p>
+
+    <div class="galeria" data-galeria hidden></div>
+
+    <p class="vazio" data-vazio-fotos>
+      Nenhuma foto ainda. Suba os arquivos em <code>midia/fotos/</code> que eles aparecem aqui automaticamente.
+    </p>
+  </section>
+
+</main>
+
+<footer class="rodape">
+  <p><strong>Lucas Gabriel Silva dos Santos</strong></p>
+  <p>Portfólio esportivo · <span data-ano>2026</span></p>
+</footer>
+
+<!-- Lightbox das fotos -->
+<div class="lightbox" data-lightbox hidden>
+  <button class="lightbox__fechar" type="button" data-fechar aria-label="Fechar">×</button>
+  <button class="lightbox__seta lightbox__seta--ant" type="button" data-lb-anterior aria-label="Foto anterior">‹</button>
+  <figure class="lightbox__conteudo">
+    <img data-lb-img src="" alt="">
+    <figcaption data-lb-legenda></figcaption>
+  </figure>
+  <button class="lightbox__seta lightbox__seta--prox" type="button" data-lb-proximo aria-label="Próxima foto">›</button>
+</div>
+
+<script src="assets/media.js"></script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>
