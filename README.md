@@ -129,6 +129,7 @@ Nele dá para editar:
 
 - dados do atleta (nome, nascimento, altura, peso, perna boa, categoria, posições);
 - times, torneios e títulos — incluindo adicionar, remover e reordenar;
+- o período em cada time; deixando em branco, o site mostra **Atual**;
 - legenda e ordem de cada vídeo e de cada foto.
 
 O painel **não envia nada sozinho** — um site sem servidor não tem permissão

@@ -328,6 +328,30 @@ code {
   background: var(--verde-claro);
 }
 .lista--times li strong { font-weight: 700; }
+.periodo {
+  font-size: .78rem;
+  color: var(--tinta-suave);
+  letter-spacing: .02em;
+  white-space: nowrap;
+}
+.periodo--atual {
+  color: var(--verde-claro);
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  font-size: .7rem;
+}
+.periodo--atual::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 6px;
+  border-radius: 50%;
+  background: var(--verde-claro);
+  vertical-align: middle;
+  box-shadow: 0 0 0 3px rgba(74, 222, 128, .2);
+}
 .lista em {
   font-style: normal;
   font-size: .68rem;
@@ -338,6 +362,8 @@ code {
   border-radius: 999px;
   padding: 2px 10px;
 }
+.lista--times li { flex-wrap: wrap; }
+.lista--times li em { margin-left: auto; }
 .lista--tacas li { align-items: center; flex-wrap: wrap; }
 .lista--tacas li::before { display: none; }
 .taca { font-size: 1.5rem; line-height: 1; }

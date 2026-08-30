@@ -1,6 +1,6 @@
 /* Arquivo gerado automaticamente por scripts/gerar-midia.js — nao edite a mao. */
 window.MIDIA = {
-  "gerado_em": "2026-08-30T22:23:25.386Z",
+  "gerado_em": "2026-08-30T22:29:17.261Z",
   "logo": "midia/logo/Logo.jpeg",
   "fotos": [
     {

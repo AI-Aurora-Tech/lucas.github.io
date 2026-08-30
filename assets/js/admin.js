@@ -102,10 +102,16 @@
       escrever: function (valores) { return valores[0]; },
     },
     times: {
-      vazio: { nome: '', marcador: '' },
-      marcadores: ['Nome do time', 'Selo (opcional) — ex.: Federado'],
-      ler: function (item) { return [item.nome, item.marcador]; },
-      escrever: function (valores) { return { nome: valores[0], marcador: valores[1] }; },
+      vazio: { nome: '', periodo: '', marcador: '' },
+      marcadores: [
+        'Nome do time',
+        'Período — em branco vira “Atual”',
+        'Selo (opcional) — ex.: Federado',
+      ],
+      ler: function (item) { return [item.nome, item.periodo, item.marcador]; },
+      escrever: function (valores) {
+        return { nome: valores[0], periodo: valores[1], marcador: valores[2] };
+      },
     },
     titulos: {
       vazio: { nome: '', detalhe: '' },
@@ -142,7 +148,8 @@
       setas.appendChild(descer);
       li.appendChild(setas);
 
-      var campos = criar('div', 'item__campos' + (valores.length > 1 ? ' item__campos--duplo' : ''));
+      var campos = criar('div', 'item__campos');
+      if (valores.length > 1) campos.style.gridTemplateColumns = 'repeat(' + valores.length + ', 1fr)';
       valores.forEach(function (valor, indice) {
         campos.appendChild(campoTexto(valor, config.marcadores[indice], function (novo) {
           valores[indice] = novo;

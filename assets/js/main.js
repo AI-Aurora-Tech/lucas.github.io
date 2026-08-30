@@ -147,6 +147,14 @@
       var nome = document.createElement('strong');
       nome.textContent = time.nome || time;
       li.appendChild(nome);
+
+      // período em branco significa que ele ainda está no clube
+      var periodo = (time.periodo || '').trim();
+      var span = document.createElement('span');
+      span.className = 'periodo' + (periodo ? '' : ' periodo--atual');
+      span.textContent = periodo || 'Atual';
+      li.appendChild(span);
+
       if (time.marcador) {
         var marcador = document.createElement('em');
         marcador.textContent = time.marcador;

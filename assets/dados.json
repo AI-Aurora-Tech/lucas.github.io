@@ -7,12 +7,28 @@
     "pernaBoa": "Direita",
     "categoria": "Sub-15 / Sub-17",
     "situacao": "Federado",
-    "posicoes": ["Volante", "Meia", "Atacante"]
+    "posicoes": [
+      "Volante",
+      "Meia",
+      "Atacante"
+    ]
   },
   "times": [
-    { "nome": "Martinica", "marcador": "" },
-    { "nome": "Pitangueiras", "marcador": "" },
-    { "nome": "Valinhos", "marcador": "Federado" }
+    {
+      "nome": "Martinica",
+      "periodo": "",
+      "marcador": ""
+    },
+    {
+      "nome": "Pitangueiras",
+      "periodo": "",
+      "marcador": ""
+    },
+    {
+      "nome": "Valinhos",
+      "periodo": "",
+      "marcador": "Federado"
+    }
   ],
   "torneios": [
     "Pré Paulistão",
@@ -23,7 +39,10 @@
     "Taça Cidade São Paulo"
   ],
   "titulos": [
-    { "nome": "Paulistinha Cup", "detalhe": "Sub-15 · 2026 · Campeão" }
+    {
+      "nome": "Paulistinha Cup",
+      "detalhe": "Sub-15 · 2026 · Campeão"
+    }
   ],
   "midia": {}
 }
