@@ -51,7 +51,10 @@ jobs:
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git add assets/media.js assets/media.json
             git commit -m "Atualiza a lista de fotos e vídeos"
-            git push
+            # Se a organização deixar os workflows sem permissão de escrita, o
+            # push falha — mas a publicação abaixo já usa a lista recém-gerada,
+            # então só avisamos em vez de derrubar o job.
+            git push || echo "Aviso: não foi possível salvar a lista no repositório."
           fi
 
       - name: Evitar processamento Jekyll
