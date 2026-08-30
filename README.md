@@ -123,7 +123,8 @@ esconde automaticamente as que não abrirem. O ideal é converter para `.jpg`.
 ## Painel de edição
 
 Para alterar os dados do atleta sem mexer em código, abra o **painel de edição**
-— o link fica no rodapé do site, ou direto em `/admin.html`.
+em `/admin.html` — por exemplo, `https://lucas.auroratech.app.br/admin.html`.
+Não há link para ele no site: guarde esse endereço nos favoritos.
 
 Nele dá para editar:
 
