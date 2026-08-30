@@ -238,6 +238,14 @@
       el.setAttribute('controlsList', 'nodownload');
       if (i === 0) el.src = video.src; // os demais carregam sob demanda
       el.dataset.src = video.src;
+
+      // fim do vídeo: emenda no próximo, como uma playlist
+      el.addEventListener('ended', function () {
+        if (i !== atual) return;                 // só quem está em exibição manda
+        if (atual >= videos.length - 1) return;  // no último, para por aqui
+        irPara(atual + 1, true);
+      });
+
       slide.appendChild(el);
 
       var legenda = document.createElement('p');
@@ -268,7 +276,7 @@
     var slides = Array.prototype.slice.call(trilho.children);
     var listaPontos = Array.prototype.slice.call(pontos.children);
 
-    function irPara(indice) {
+    function irPara(indice, tocar) {
       atual = Math.max(0, Math.min(indice, videos.length - 1));
       trilho.style.transform = 'translateX(' + (-100 * atual) + '%)';
       contador.textContent = (atual + 1) + ' / ' + videos.length;
@@ -279,13 +287,23 @@
 
       slides.forEach(function (slide, i) {
         var video = slide.querySelector('video');
-        if (i === atual) {
+        // o seguinte também é preparado, para a emenda não ter espera
+        if (i === atual || i === atual + 1) {
           if (!video.getAttribute('src')) video.setAttribute('src', video.dataset.src);
           video.preload = 'metadata';
-        } else if (!video.paused) {
+        }
+        if (i !== atual && !video.paused) {
           video.pause(); // não deixa dois vídeos tocando juntos
         }
       });
+
+      if (tocar) {
+        var emExibicao = slides[atual].querySelector('video');
+        emExibicao.currentTime = 0;
+        var reproducao = emExibicao.play();
+        // o navegador pode recusar a reprodução automática; aí fica pausado
+        if (reproducao && reproducao.catch) reproducao.catch(function () {});
+      }
 
       btnAnterior.disabled = atual === 0;
       btnProximo.disabled = atual === videos.length - 1;
