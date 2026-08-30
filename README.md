@@ -120,26 +120,49 @@ esconde automaticamente as que não abrirem. O ideal é converter para `.jpg`.
 
 ---
 
-## Onde alterar as informações do atleta
+## Painel de edição
 
-Tudo o que é texto está no `index.html`, em português e comentado por seção
-(perfil, trajetória, torneios, títulos).
+Para alterar os dados do atleta sem mexer em código, abra o **painel de edição**
+— o link fica no rodapé do site, ou direto em `/admin.html`.
+
+Nele dá para editar:
+
+- dados do atleta (nome, nascimento, altura, peso, perna boa, categoria, posições);
+- times, torneios e títulos — incluindo adicionar, remover e reordenar;
+- legenda e ordem de cada vídeo e de cada foto.
+
+O painel **não envia nada sozinho** — um site sem servidor não tem permissão
+para gravar no repositório. O fluxo é:
+
+1. edite o que quiser;
+2. na aba **Salvar**, clique em *Baixar dados.json*;
+3. envie esse arquivo na pasta `assets` do repositório, por cima do antigo.
+
+Cerca de um minuto depois o site está atualizado. Como o painel lê esse arquivo
+sem passar pelo cache, a alteração aparece já no primeiro refresh.
+
+Para acrescentar ou apagar fotos e vídeos, os botões *Abrir a pasta no GitHub*
+levam direto à tela de envio da pasta certa.
 
 A **idade é calculada sozinha** a partir da data de nascimento — não precisa
-atualizar em nenhum aniversário. Ela está definida em `assets/js/main.js`:
+atualizar em nenhum aniversário.
 
-```js
-var NASCIMENTO = { ano: 2011, mes: 3, dia: 10 }; // 10/03/2011
-```
+O `index.html` continua trazendo os textos como estão hoje, e serve de reserva
+caso o `dados.json` não carregue. Quando os dois existem, **o `dados.json` é
+que vale**.
 
 ---
 
 ## Estrutura do projeto
 
 ```
-index.html                        página do site (todos os textos ficam aqui)
+index.html                        página do site
+admin.html                        painel de edição dos dados
+assets/dados.json                 dados do atleta (editados pelo painel)
 assets/css/style.css              estilos, incluindo o campo de futebol de fundo
+assets/css/admin.css              estilos do painel
 assets/js/main.js                 idade automática, carrossel e galeria
+assets/js/admin.js                lógica do painel
 assets/media.json                 lista de arquivos (gerado — não edite)
 assets/media.js                   a mesma lista, usada ao abrir o site do disco
 scripts/gerar-midia.js            varre as pastas de mídia e gera o media.js

@@ -66,7 +66,7 @@
 <header class="topo">
   <a class="topo__marca" href="#inicio">
     <img src="midia/logo/Logo.jpeg" alt="Logo" class="topo__logo" onerror="this.remove()">
-    <span>Lucas Gabriel</span>
+    <span data-marca>Lucas Gabriel</span>
   </a>
   <nav class="topo__nav">
     <a href="#perfil">Perfil</a>
@@ -87,14 +87,14 @@
     </div>
 
     <p class="hero__olho">Atleta · Futebol de campo</p>
-    <h1 class="hero__nome">Lucas Gabriel<br><span>Silva dos Santos</span></h1>
-    <p class="hero__posicoes">Volante · Meia · Atacante</p>
+    <h1 class="hero__nome" data-nome>Lucas Gabriel<br><span>Silva dos Santos</span></h1>
+    <p class="hero__posicoes" data-posicoes>Volante · Meia · Atacante</p>
 
     <ul class="hero__stats">
       <li><strong data-idade>—</strong><span>anos</span></li>
-      <li><strong>1,75</strong><span>metros</span></li>
-      <li><strong>58</strong><span>kg</span></li>
-      <li><strong>Direita</strong><span>perna boa</span></li>
+      <li><strong data-stat-altura>1,75</strong><span>metros</span></li>
+      <li><strong data-stat-peso>58</strong><span>kg</span></li>
+      <li><strong data-stat-perna>Direita</strong><span>perna boa</span></li>
     </ul>
 
     <div class="hero__acoes">
@@ -111,23 +111,23 @@
       <div class="card">
         <h3 class="card__titulo">Dados pessoais</h3>
         <dl class="dados">
-          <div><dt>Nome completo</dt><dd>Lucas Gabriel Silva dos Santos</dd></div>
+          <div><dt>Nome completo</dt><dd data-campo-nome>Lucas Gabriel Silva dos Santos</dd></div>
           <div><dt>Idade</dt><dd><span data-idade>—</span> anos</dd></div>
-          <div><dt>Data de nascimento</dt><dd>10/03/2011</dd></div>
-          <div><dt>Altura</dt><dd>1,75 m</dd></div>
-          <div><dt>Peso</dt><dd>58 kg</dd></div>
+          <div><dt>Data de nascimento</dt><dd data-campo-nascimento>10/03/2011</dd></div>
+          <div><dt>Altura</dt><dd data-campo-altura>1,75 m</dd></div>
+          <div><dt>Peso</dt><dd data-campo-peso>58 kg</dd></div>
         </dl>
       </div>
 
       <div class="card">
         <h3 class="card__titulo">Características técnicas</h3>
         <dl class="dados">
-          <div><dt>Perna boa</dt><dd>Direita</dd></div>
-          <div><dt>Categoria</dt><dd>Sub-15 / Sub-17</dd></div>
-          <div><dt>Situação</dt><dd>Federado</dd></div>
+          <div><dt>Perna boa</dt><dd data-campo-perna>Direita</dd></div>
+          <div><dt>Categoria</dt><dd data-campo-categoria>Sub-15 / Sub-17</dd></div>
+          <div><dt>Situação</dt><dd data-campo-situacao>Federado</dd></div>
         </dl>
         <p class="card__rotulo">Posições que joga</p>
-        <ul class="chips">
+        <ul class="chips" data-chips-posicoes>
           <li>Volante</li>
           <li>Meia</li>
           <li>Atacante</li>
@@ -143,7 +143,7 @@
     <div class="cards">
       <div class="card">
         <h3 class="card__titulo">Times que atuou</h3>
-        <ul class="lista lista--times">
+        <ul class="lista lista--times" data-lista-times>
           <li><strong>Martinica</strong></li>
           <li><strong>Pitangueiras</strong></li>
           <li><strong>Valinhos</strong><em>Federado</em></li>
@@ -152,7 +152,7 @@
 
       <div class="card">
         <h3 class="card__titulo">Torneios disputados</h3>
-        <ul class="lista">
+        <ul class="lista" data-lista-torneios>
           <li>Pré Paulistão</li>
           <li>Paulista U15</li>
           <li>Paulista U17</li>
@@ -164,7 +164,7 @@
 
       <div class="card card--titulo-ganho">
         <h3 class="card__titulo">Títulos conquistados</h3>
-        <ul class="lista lista--tacas">
+        <ul class="lista lista--tacas" data-lista-titulos>
           <li>
             <span class="taca" aria-hidden="true">🏆</span>
             <strong>Paulistinha Cup</strong>
@@ -217,6 +217,7 @@
 <footer class="rodape">
   <p><strong>Lucas Gabriel Silva dos Santos</strong></p>
   <p>Portfólio esportivo · <span data-ano>2026</span></p>
+  <p><a class="rodape__admin" href="admin.html">Painel de edição</a></p>
 </footer>
 
 <!-- Lightbox das fotos -->

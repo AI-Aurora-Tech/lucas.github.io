@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Painel de edição — Portfólio</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="midia/logo/Logo.jpeg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/admin.css">
+</head>
+<body>
+
+<header class="cabecalho">
+  <div class="cabecalho__titulo">
+    <h1>Painel de edição</h1>
+    <p>Altere os dados, baixe o arquivo e envie no GitHub.</p>
+  </div>
+  <a class="botao botao--fantasma" href="index.html">Ver o site</a>
+</header>
+
+<nav class="abas">
+  <button type="button" class="aba is-ativa" data-aba="atleta">Atleta</button>
+  <button type="button" class="aba" data-aba="trajetoria">Trajetória</button>
+  <button type="button" class="aba" data-aba="videos">Vídeos</button>
+  <button type="button" class="aba" data-aba="fotos">Fotos</button>
+  <button type="button" class="aba" data-aba="salvar">Salvar</button>
+</nav>
+
+<main>
+
+  <!-- ===================== ATLETA ===================== -->
+  <section class="painel is-ativo" data-painel="atleta">
+    <h2>Dados do atleta</h2>
+
+    <div class="campos">
+      <label>Nome completo
+        <input type="text" data-campo="nome">
+        <small>As duas primeiras palavras aparecem em branco no topo do site; o resto, em verde.</small>
+      </label>
+
+      <label>Data de nascimento
+        <input type="date" data-campo="nascimento">
+        <small>A idade é calculada sozinha a partir daqui.</small>
+      </label>
+
+      <label>Altura
+        <input type="text" data-campo="altura" placeholder="1,75">
+        <small>Só o número. O “m” é acrescentado pelo site.</small>
+      </label>
+
+      <label>Peso
+        <input type="text" data-campo="peso" placeholder="58">
+        <small>Só o número. O “kg” é acrescentado pelo site.</small>
+      </label>
+
+      <label>Perna boa
+        <input type="text" data-campo="pernaBoa" placeholder="Direita">
+      </label>
+
+      <label>Categoria
+        <input type="text" data-campo="categoria" placeholder="Sub-15 / Sub-17">
+      </label>
+
+      <label>Situação
+        <input type="text" data-campo="situacao" placeholder="Federado">
+      </label>
+    </div>
+
+    <h3>Posições que joga</h3>
+    <ul class="itens" data-lista="posicoes"></ul>
+    <button type="button" class="botao botao--adicionar" data-adicionar="posicoes">+ Adicionar posição</button>
+  </section>
+
+  <!-- ===================== TRAJETÓRIA ===================== -->
+  <section class="painel" data-painel="trajetoria">
+    <h2>Times que atuou</h2>
+    <ul class="itens" data-lista="times"></ul>
+    <button type="button" class="botao botao--adicionar" data-adicionar="times">+ Adicionar time</button>
+
+    <h2>Torneios disputados</h2>
+    <ul class="itens" data-lista="torneios"></ul>
+    <button type="button" class="botao botao--adicionar" data-adicionar="torneios">+ Adicionar torneio</button>
+
+    <h2>Títulos conquistados</h2>
+    <ul class="itens" data-lista="titulos"></ul>
+    <button type="button" class="botao botao--adicionar" data-adicionar="titulos">+ Adicionar título</button>
+  </section>
+
+  <!-- ===================== VÍDEOS ===================== -->
+  <section class="painel" data-painel="videos">
+    <h2>Vídeos</h2>
+    <p class="apoio">
+      A ordem daqui é a ordem do carrossel no site. A legenda aparece embaixo do
+      vídeo — deixe em branco para o site usar a data do arquivo.
+    </p>
+    <div class="envio">
+      <span>Para acrescentar ou apagar arquivos:</span>
+      <a class="botao botao--fantasma" data-link-upload="midia/videos" target="_blank" rel="noopener">Abrir a pasta no GitHub</a>
+    </div>
+    <ul class="midias" data-midia="videos"></ul>
+    <p class="vazio" data-vazio="videos">Nenhum vídeo encontrado.</p>
+  </section>
+
+  <!-- ===================== FOTOS ===================== -->
+  <section class="painel" data-painel="fotos">
+    <h2>Fotos</h2>
+    <p class="apoio">
+      A ordem daqui é a ordem da galeria. A legenda aparece ao ampliar a foto e
+      serve de descrição para leitores de tela.
+    </p>
+    <div class="envio">
+      <span>Para acrescentar ou apagar arquivos:</span>
+      <a class="botao botao--fantasma" data-link-upload="midia/fotos" target="_blank" rel="noopener">Abrir a pasta no GitHub</a>
+    </div>
+    <ul class="midias" data-midia="fotos"></ul>
+    <p class="vazio" data-vazio="fotos">Nenhuma foto encontrada.</p>
+  </section>
+
+  <!-- ===================== SALVAR ===================== -->
+  <section class="painel" data-painel="salvar">
+    <h2>Salvar as alterações</h2>
+
+    <ol class="passos">
+      <li>
+        <strong>Baixe o arquivo com os dados novos.</strong>
+        <div class="acoes">
+          <button type="button" class="botao botao--destaque" data-baixar>Baixar dados.json</button>
+          <button type="button" class="botao" data-copiar>Copiar o conteúdo</button>
+        </div>
+      </li>
+      <li>
+        <strong>Envie na pasta <code>assets</code> do repositório</strong>, pelo
+        botão <em>Add file → Upload files</em>. O arquivo tem que se chamar
+        <code>dados.json</code> — enviar por cima do que já existe substitui o antigo.
+        <div class="acoes">
+          <a class="botao botao--fantasma" data-link-upload="assets" target="_blank" rel="noopener">Abrir a pasta assets no GitHub</a>
+        </div>
+      </li>
+      <li>
+        <strong>Pronto.</strong> Em cerca de um minuto o site está atualizado.
+        Se a página não mudar, recarregue com <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd>.
+      </li>
+    </ol>
+
+    <h3>Conferência</h3>
+    <p class="apoio">É este o conteúdo que será enviado:</p>
+    <pre class="previa" data-previa></pre>
+  </section>
+
+</main>
+
+<div class="aviso" data-aviso hidden></div>
+
+<script src="assets/media.js"></script>
+<script src="assets/js/admin.js"></script>
+</body>
+</html>

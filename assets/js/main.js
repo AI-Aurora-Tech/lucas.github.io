@@ -14,6 +14,16 @@
    * estiver disponível (index.html aberto direto do disco, em file://), vale a
    * lista do assets/media.js, carregado pela tag <script> do index.html.
    */
+  /** Busca um JSON do site sem passar pelo cache; devolve null se não der. */
+  function buscarJson(caminho) {
+    var naWeb = location.protocol === 'http:' || location.protocol === 'https:';
+    if (!naWeb || typeof window.fetch !== 'function') return Promise.resolve(null);
+
+    return fetch(caminho, { cache: 'no-store' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .catch(function () { return null; });
+  }
+
   function carregarMidia() {
     var reserva = window.MIDIA || { logo: null, fotos: [], videos: [] };
     var naWeb = location.protocol === 'http:' || location.protocol === 'https:';
@@ -22,16 +32,9 @@
       return Promise.resolve(reserva);
     }
 
-    return fetch('assets/media.json', { cache: 'no-store' })
-      .then(function (resposta) {
-        return resposta.ok ? resposta.json() : reserva;
-      })
-      .then(function (dados) {
-        return dados && dados.fotos && dados.videos ? dados : reserva;
-      })
-      .catch(function () {
-        return reserva;
-      });
+    return buscarJson('assets/media.json').then(function (dados) {
+      return dados && dados.fotos && dados.videos ? dados : reserva;
+    });
   }
 
   /* ---------- Idade automática ---------- */
@@ -60,6 +63,142 @@
     document.querySelectorAll('.topo__logo, .hero__logo').forEach(function (img) {
       if (img.getAttribute('src') !== caminho) img.setAttribute('src', caminho);
     });
+  }
+
+  /* ---------- Dados do atleta (assets/dados.json) ---------- */
+
+  function texto(seletor, valor) {
+    if (valor === undefined || valor === null || valor === '') return;
+    var el = document.querySelector(seletor);
+    if (el) el.textContent = valor;
+  }
+
+  /** Repõe uma lista inteira a partir de um array, usando um molde por item. */
+  function repovoarLista(seletor, itens, molde) {
+    var ul = document.querySelector(seletor);
+    if (!ul || !Array.isArray(itens) || !itens.length) return;
+    ul.innerHTML = '';
+    itens.forEach(function (item) {
+      var li = document.createElement('li');
+      molde(li, item);
+      ul.appendChild(li);
+    });
+  }
+
+  function dataPorExtenso(iso) {
+    var partes = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso || '');
+    return partes ? partes[3] + '/' + partes[2] + '/' + partes[1] : null;
+  }
+
+  function aplicarDados(dados) {
+    if (!dados) return;
+    var atleta = dados.atleta || {};
+
+    if (atleta.nascimento) {
+      var d = /^(\d{4})-(\d{2})-(\d{2})$/.exec(atleta.nascimento);
+      if (d) {
+        NASCIMENTO = { ano: Number(d[1]), mes: Number(d[2]), dia: Number(d[3]) };
+        document.querySelectorAll('[data-idade]').forEach(function (el) {
+          el.textContent = calcularIdade();
+        });
+      }
+      texto('[data-campo-nascimento]', dataPorExtenso(atleta.nascimento));
+    }
+
+    if (atleta.nome) {
+      // as duas primeiras palavras ficam em branco; o resto, em verde
+      var palavras = atleta.nome.trim().split(/\s+/);
+      var inicio = palavras.slice(0, 2).join(' ');
+      var resto = palavras.slice(2).join(' ');
+      var h1 = document.querySelector('[data-nome]');
+      if (h1) {
+        h1.textContent = inicio;
+        if (resto) {
+          h1.appendChild(document.createElement('br'));
+          var span = document.createElement('span');
+          span.textContent = resto;
+          h1.appendChild(span);
+        }
+      }
+      texto('[data-marca]', inicio);
+      texto('[data-campo-nome]', atleta.nome);
+      document.title = atleta.nome + ' — Portfólio';
+      var rodapeNome = document.querySelector('.rodape strong');
+      if (rodapeNome) rodapeNome.textContent = atleta.nome;
+    }
+
+    if (Array.isArray(atleta.posicoes) && atleta.posicoes.length) {
+      texto('[data-posicoes]', atleta.posicoes.join(' · '));
+      repovoarLista('[data-chips-posicoes]', atleta.posicoes, function (li, nome) {
+        li.textContent = nome;
+      });
+    }
+
+    texto('[data-stat-altura]', atleta.altura);
+    texto('[data-stat-peso]', atleta.peso);
+    texto('[data-stat-perna]', atleta.pernaBoa);
+    texto('[data-campo-altura]', atleta.altura ? atleta.altura + ' m' : null);
+    texto('[data-campo-peso]', atleta.peso ? atleta.peso + ' kg' : null);
+    texto('[data-campo-perna]', atleta.pernaBoa);
+    texto('[data-campo-categoria]', atleta.categoria);
+    texto('[data-campo-situacao]', atleta.situacao);
+
+    repovoarLista('[data-lista-times]', dados.times, function (li, time) {
+      var nome = document.createElement('strong');
+      nome.textContent = time.nome || time;
+      li.appendChild(nome);
+      if (time.marcador) {
+        var marcador = document.createElement('em');
+        marcador.textContent = time.marcador;
+        li.appendChild(marcador);
+      }
+    });
+
+    repovoarLista('[data-lista-torneios]', dados.torneios, function (li, nome) {
+      li.textContent = nome;
+    });
+
+    repovoarLista('[data-lista-titulos]', dados.titulos, function (li, titulo) {
+      var taca = document.createElement('span');
+      taca.className = 'taca';
+      taca.setAttribute('aria-hidden', 'true');
+      taca.textContent = '🏆';
+      li.appendChild(taca);
+
+      var nome = document.createElement('strong');
+      nome.textContent = titulo.nome || titulo;
+      li.appendChild(nome);
+
+      if (titulo.detalhe) {
+        var detalhe = document.createElement('em');
+        detalhe.textContent = titulo.detalhe;
+        li.appendChild(detalhe);
+      }
+    });
+  }
+
+  /**
+   * Cruza os arquivos que existem de fato (media.json) com as legendas e a
+   * ordem definidas no painel (dados.json). Arquivo sem ordem definida vai
+   * para o fim da fila, mantendo a ordem alfabética do nome.
+   */
+  function ordenarComMetadados(arquivos, metadados) {
+    var meta = metadados || {};
+    return arquivos
+      .map(function (arquivo, posicao) {
+        var info = meta[arquivo.src] || {};
+        return {
+          src: arquivo.src,
+          nome: arquivo.nome,
+          data: arquivo.data,
+          legenda: info.legenda || '',
+          ordem: typeof info.ordem === 'number' ? info.ordem : Infinity,
+          alfabetica: posicao,
+        };
+      })
+      .sort(function (a, b) {
+        return a.ordem - b.ordem || a.alfabetica - b.alfabetica;
+      });
   }
 
   /* ---------- Carrossel de vídeos ---------- */
@@ -95,9 +234,14 @@
 
       var legenda = document.createElement('p');
       legenda.className = 'carrossel__legenda';
-      legenda.innerHTML =
-        '<b>Vídeo ' + (i + 1) + ' de ' + videos.length + '</b>' +
-        '<span>' + (video.data ? video.data : escapar(video.nome)) + '</span>';
+      var titulo = document.createElement('b');
+      titulo.textContent = video.legenda || 'Vídeo ' + (i + 1) + ' de ' + videos.length;
+      var detalhe = document.createElement('span');
+      detalhe.textContent = video.legenda
+        ? 'Vídeo ' + (i + 1) + ' de ' + videos.length + (video.data ? ' · ' + video.data : '')
+        : video.data || video.nome;
+      legenda.appendChild(titulo);
+      legenda.appendChild(detalhe);
       slide.appendChild(legenda);
 
       trilho.appendChild(slide);
@@ -182,7 +326,7 @@
 
       var img = document.createElement('img');
       img.src = foto.src;
-      img.alt = 'Foto ' + (i + 1) + (foto.data ? ' — ' + foto.data : '');
+      img.alt = foto.legenda || 'Foto ' + (i + 1) + (foto.data ? ' — ' + foto.data : '');
       img.loading = 'lazy';
       img.decoding = 'async';
       // esconde a miniatura se o arquivo não abrir (ex.: .heic sem suporte)
@@ -214,9 +358,11 @@
     function atualizarLightbox() {
       var foto = fotos[indice];
       lbImg.src = foto.src;
-      lbImg.alt = 'Foto ' + (indice + 1);
+      lbImg.alt = foto.legenda || 'Foto ' + (indice + 1);
       lbLegenda.textContent =
-        'Foto ' + (indice + 1) + ' de ' + fotos.length + (foto.data ? ' · ' + foto.data : '');
+        (foto.legenda ? foto.legenda + ' · ' : '') +
+        'Foto ' + (indice + 1) + ' de ' + fotos.length +
+        (foto.data ? ' · ' + foto.data : '');
     }
 
     function navegar(passo) {
@@ -258,17 +404,17 @@
     alvos.forEach(function (el) { observador.observe(el); });
   }
 
-  function escapar(texto) {
-    var div = document.createElement('div');
-    div.textContent = texto;
-    return div.innerHTML;
-  }
-
   revelarSecoes();
 
-  carregarMidia().then(function (midia) {
+  Promise.all([carregarMidia(), buscarJson('assets/dados.json')]).then(function (r) {
+    var midia = r[0];
+    var dados = r[1];
+
+    aplicarDados(dados);
     aplicarLogo(midia.logo);
-    montarCarrossel(midia.videos || []);
-    montarGaleria(midia.fotos || []);
+
+    var meta = dados && dados.midia;
+    montarCarrossel(ordenarComMetadados(midia.videos || [], meta));
+    montarGaleria(ordenarComMetadados(midia.fotos || [], meta));
   });
 })();

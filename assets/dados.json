@@ -1,0 +1,29 @@
+{
+  "atleta": {
+    "nome": "Lucas Gabriel Silva dos Santos",
+    "nascimento": "2011-03-10",
+    "altura": "1,75",
+    "peso": "58",
+    "pernaBoa": "Direita",
+    "categoria": "Sub-15 / Sub-17",
+    "situacao": "Federado",
+    "posicoes": ["Volante", "Meia", "Atacante"]
+  },
+  "times": [
+    { "nome": "Martinica", "marcador": "" },
+    { "nome": "Pitangueiras", "marcador": "" },
+    { "nome": "Valinhos", "marcador": "Federado" }
+  ],
+  "torneios": [
+    "Pré Paulistão",
+    "Paulista U15",
+    "Paulista U17",
+    "União Cup",
+    "Paulistinha Cup",
+    "Taça Cidade São Paulo"
+  ],
+  "titulos": [
+    { "nome": "Paulistinha Cup", "detalhe": "Sub-15 · 2026 · Campeão" }
+  ],
+  "midia": {}
+}
