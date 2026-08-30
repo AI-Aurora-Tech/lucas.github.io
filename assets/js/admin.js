@@ -345,6 +345,10 @@
       avisar('Arquivo baixado. Agora envie na pasta assets.');
     });
 
+    document.querySelector('[data-recarregar]').addEventListener('click', function () {
+      location.reload();
+    });
+
     document.querySelector('[data-copiar]').addEventListener('click', function () {
       var texto = textoDaSaida();
       if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -383,6 +387,10 @@
     midia = arquivos;
     ordens.videos = ordenarMidia(midia.videos || []);
     ordens.fotos = ordenarMidia(midia.fotos || []);
+
+    var agora = new Date();
+    document.querySelector('[data-carimbo]').textContent =
+      'dados lidos às ' + agora.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
 
     preencherCampos();
     Object.keys(LISTAS).forEach(desenharLista);

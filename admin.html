@@ -9,7 +9,14 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/admin.css">
+<script>
+  /* O GitHub Pages guarda os arquivos por 10 minutos no navegador. Carregando
+     o CSS e o JS do painel com uma marca de tempo, uma versão nova chega já no
+     primeiro acesso, em vez de esperar o cache vencer. */
+  window.VERSAO_PAINEL = '?v=' + Date.now();
+  document.write('<link rel="stylesheet" href="assets/css/admin.css' + window.VERSAO_PAINEL + '">');
+</script>
+<noscript><link rel="stylesheet" href="assets/css/admin.css"></noscript>
 </head>
 <body>
 
@@ -18,7 +25,11 @@
     <h1>Painel de edição</h1>
     <p>Altere os dados, baixe o arquivo e envie no GitHub.</p>
   </div>
-  <a class="botao botao--fantasma" href="index.html">Ver o site</a>
+  <div class="cabecalho__acoes">
+    <span class="carimbo" data-carimbo>carregando…</span>
+    <button type="button" class="botao botao--fantasma" data-recarregar>Recarregar</button>
+    <a class="botao botao--fantasma" href="index.html">Ver o site</a>
+  </div>
 </header>
 
 <nav class="abas">
@@ -154,7 +165,13 @@
 
 <div class="aviso" data-aviso hidden></div>
 
-<script src="assets/media.js"></script>
-<script src="assets/js/admin.js"></script>
+<script>
+  ['assets/media.js', 'assets/js/admin.js'].forEach(function (arquivo) {
+    var script = document.createElement('script');
+    script.src = arquivo + window.VERSAO_PAINEL;
+    script.async = false; // mantém a ordem de execução
+    document.body.appendChild(script);
+  });
+</script>
 </body>
 </html>

@@ -56,6 +56,8 @@ code, kbd {
   background: var(--superficie);
   border-bottom: 1px solid var(--borda);
 }
+.cabecalho__acoes { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.carimbo { font-size: .74rem; color: var(--tinta-suave); letter-spacing: .04em; }
 .cabecalho h1 { font-size: 1.6rem; font-weight: 800; }
 .cabecalho p { margin: 2px 0 0; color: var(--tinta-suave); font-size: .88rem; }
 
