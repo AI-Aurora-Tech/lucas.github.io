@@ -39,6 +39,12 @@ Uma única vez, para ligar o site:
 1. No repositório, vá em **Settings → Pages**
 2. Em **Source**, escolha **GitHub Actions**
 
+> **Importante:** deixe o *Source* em **GitHub Actions**, não em *Deploy from a
+> branch*. Nos dois modos ligados ao mesmo tempo, cada envio dispara duas
+> publicações concorrentes e vale a que terminar por último — o que faz o site
+> ora atualizar, ora não. O modo *branch* publica os arquivos como estão
+> salvos, sem varrer as pastas de mídia.
+
 Pronto. A cada envio para a branch principal do repositório, o GitHub Actions
 varre as pastas de mídia, regenera a lista de arquivos e publica o site em:
 
@@ -78,10 +84,16 @@ já no primeiro refresh. Se ainda assim faltar algo, confira nesta ordem:
 1. Em **Actions**, se a última execução de *Publicar site* terminou com o visto
    verde. O log do passo *Gerar lista de fotos e vídeos* mostra quantas fotos e
    vídeos foram encontrados — é o número que o site vai exibir.
-2. Se o arquivo está na pasta certa (`midia/fotos` ou `midia/videos`) e com uma
+2. Se aparecer também uma execução chamada *pages build and deployment* no mesmo
+   envio, o *Source* do Pages está em *Deploy from a branch*. Troque para
+   **GitHub Actions** (veja acima): as duas publicações competem entre si.
+3. Se o arquivo está na pasta certa (`midia/fotos` ou `midia/videos`) e com uma
    extensão suportada.
-3. Se o vídeo é `.mp4` com H.264 (o padrão do WhatsApp). `.mov` do iPhone só
+4. Se o vídeo é `.mp4` com H.264 (o padrão do WhatsApp). `.mov` do iPhone só
    abre no Safari — veja a conversão abaixo.
+5. Se você mudou textos do `index.html`, o navegador guarda a página por até 10
+   minutos. Um recarregamento forçado (Ctrl+Shift+R) mostra a versão nova na
+   hora. A lista de fotos e vídeos não passa por essa espera.
 
 ## Limites de tamanho do GitHub
 

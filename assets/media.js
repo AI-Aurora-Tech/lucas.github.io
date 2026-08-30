@@ -1,6 +1,6 @@
 /* Arquivo gerado automaticamente por scripts/gerar-midia.js — nao edite a mao. */
 window.MIDIA = {
-  "gerado_em": "2026-08-29T21:16:06.522Z",
+  "gerado_em": "2026-08-30T21:07:14.358Z",
   "logo": "midia/logo/Logo.jpeg",
   "fotos": [
     {
@@ -61,39 +61,29 @@ window.MIDIA = {
   ],
   "videos": [
     {
-      "src": "midia/videos/WhatsApp Video 2026-08-29 at 17.18.12.mp4",
-      "nome": "WhatsApp Video 2026-08-29 at 17.18.12.mp4",
-      "data": "29/08/2026"
+      "src": "midia/videos/Embuense.mp4",
+      "nome": "Embuense.mp4",
+      "data": null
     },
     {
-      "src": "midia/videos/WhatsApp Video 2026-08-29 at 17.18.14.mp4",
-      "nome": "WhatsApp Video 2026-08-29 at 17.18.14.mp4",
-      "data": "29/08/2026"
+      "src": "midia/videos/Falta.mp4",
+      "nome": "Falta.mp4",
+      "data": null
     },
     {
-      "src": "midia/videos/WhatsApp Video 2026-08-29 at 17.18.20.mp4",
-      "nome": "WhatsApp Video 2026-08-29 at 17.18.20.mp4",
-      "data": "29/08/2026"
+      "src": "midia/videos/Falta2.mp4",
+      "nome": "Falta2.mp4",
+      "data": null
     },
     {
-      "src": "midia/videos/WhatsApp Video 2026-08-29 at 17.18.23.mp4",
-      "nome": "WhatsApp Video 2026-08-29 at 17.18.23.mp4",
-      "data": "29/08/2026"
+      "src": "midia/videos/Força.mp4",
+      "nome": "Força.mp4",
+      "data": null
     },
     {
-      "src": "midia/videos/WhatsApp Video 2026-08-29 at 17.18.36.mp4",
-      "nome": "WhatsApp Video 2026-08-29 at 17.18.36.mp4",
-      "data": "29/08/2026"
-    },
-    {
-      "src": "midia/videos/WhatsApp Video 2026-08-29 at 17.18.40.mp4",
-      "nome": "WhatsApp Video 2026-08-29 at 17.18.40.mp4",
-      "data": "29/08/2026"
-    },
-    {
-      "src": "midia/videos/WhatsApp Video 2026-08-29 at 17.19.08.mp4",
-      "nome": "WhatsApp Video 2026-08-29 at 17.19.08.mp4",
-      "data": "29/08/2026"
+      "src": "midia/videos/Velocidade.mp4",
+      "nome": "Velocidade.mp4",
+      "data": null
     }
   ]
 };

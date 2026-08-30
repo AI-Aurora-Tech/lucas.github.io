@@ -1,8 +1,14 @@
 name: Publicar site
 
 # Publica o portfólio no GitHub Pages a cada push na branch principal.
-# Antes de publicar, varre as pastas de mídia e regenera assets/media.js,
+#
+# Antes de publicar, varre as pastas de mídia e regenera a lista de arquivos,
 # então basta subir fotos e vídeos que o site passa a exibi-los sozinho.
+#
+# A lista regenerada também é commitada de volta no repositório. Isso importa
+# quando o Pages está configurado como "Deploy from a branch": nesse modo o
+# GitHub publica os arquivos do jeito que estão salvos, sem rodar este
+# workflow, e o site acabaria servindo uma lista velha.
 
 on:
   push:
@@ -12,7 +18,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -35,6 +41,18 @@ jobs:
 
       - name: Gerar lista de fotos e vídeos
         run: node scripts/gerar-midia.js
+
+      - name: Salvar a lista no repositório
+        run: |
+          if git diff --quiet -- assets/media.js assets/media.json; then
+            echo "A lista já estava em dia — nada a commitar."
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add assets/media.js assets/media.json
+            git commit -m "Atualiza a lista de fotos e vídeos"
+            git push
+          fi
 
       - name: Evitar processamento Jekyll
         run: touch .nojekyll
