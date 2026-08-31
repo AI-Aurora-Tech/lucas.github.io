@@ -1,6 +1,6 @@
 /* Arquivo gerado automaticamente por scripts/gerar-midia.js — nao edite a mao. */
 window.MIDIA = {
-  "gerado_em": "2026-08-30T22:55:41.780Z",
+  "gerado_em": "2026-08-31T00:15:39.753Z",
   "logo": "midia/logo/Logo.jpeg",
   "fotos": [
     {
@@ -59,31 +59,5 @@ window.MIDIA = {
       "data": "29/08/2026"
     }
   ],
-  "videos": [
-    {
-      "src": "midia/videos/Embuense.mp4",
-      "nome": "Embuense.mp4",
-      "data": null
-    },
-    {
-      "src": "midia/videos/Falta.mp4",
-      "nome": "Falta.mp4",
-      "data": null
-    },
-    {
-      "src": "midia/videos/Falta2.mp4",
-      "nome": "Falta2.mp4",
-      "data": null
-    },
-    {
-      "src": "midia/videos/Força.mp4",
-      "nome": "Força.mp4",
-      "data": null
-    },
-    {
-      "src": "midia/videos/Velocidade.mp4",
-      "nome": "Velocidade.mp4",
-      "data": null
-    }
-  ]
+  "videos": []
 };
