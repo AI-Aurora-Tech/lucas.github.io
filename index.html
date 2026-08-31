@@ -13,7 +13,15 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css">
+<script>
+  /* O GitHub Pages guarda cada arquivo por 10 minutos no navegador, cada um por
+     sua conta. Sem isto, uma página nova pode acabar rodando com um script
+     antigo — e o que depende dos dois quebra. A marca de tempo mantém o CSS e o
+     JS sempre em par com esta página. */
+  window.VERSAO_SITE = '?v=' + Date.now();
+  document.write('<link rel="stylesheet" href="assets/css/style.css' + window.VERSAO_SITE + '">');
+</script>
+<noscript><link rel="stylesheet" href="assets/css/style.css"></noscript>
 </head>
 <body>
 
@@ -230,7 +238,13 @@
   <button class="lightbox__seta lightbox__seta--prox" type="button" data-lb-proximo aria-label="Próxima foto">›</button>
 </div>
 
-<script src="assets/media.js"></script>
-<script src="assets/js/main.js"></script>
+<script>
+  ['assets/media.js', 'assets/js/main.js'].forEach(function (arquivo) {
+    var script = document.createElement('script');
+    script.src = arquivo + window.VERSAO_SITE;
+    script.async = false; // mantém a ordem de execução
+    document.body.appendChild(script);
+  });
+</script>
 </body>
 </html>

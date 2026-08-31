@@ -309,6 +309,52 @@
       btnProximo.disabled = atual === videos.length - 1;
     }
 
+    /**
+     * O Safari do iPhone só deixa um vídeo tocar se a ordem partir de um toque
+     * da pessoa. Quando um vídeo acaba e mandamos o seguinte tocar, não há
+     * toque nenhum — e a emenda seria barrada. A saída é aproveitar o primeiro
+     * toque no carrossel para dar um play instantâneo em cada vídeo, pausando
+     * em seguida: a partir daí todos ficam autorizados, e a emenda vale.
+     *
+     * Roda uma vez só, e no silêncio, para não escapar áudio nenhum.
+     */
+    var destravado = false;
+    function destravarVideos() {
+      if (destravado) return;
+      destravado = true;
+
+      slides.forEach(function (slide, i) {
+        if (i === atual) return; // o vídeo em exibição a pessoa mesma acionou
+
+        var video = slide.querySelector('video');
+        if (!video.getAttribute('src')) video.setAttribute('src', video.dataset.src);
+
+        var estavaMudo = video.muted;
+        video.muted = true;
+
+        var encerrar = function () {
+          video.pause();
+          video.currentTime = 0;
+          video.muted = estavaMudo;
+        };
+
+        try {
+          var reproducao = video.play();
+          if (reproducao && reproducao.then) {
+            reproducao.then(encerrar, function () { video.muted = estavaMudo; });
+          } else {
+            encerrar();
+          }
+        } catch (e) {
+          video.muted = estavaMudo;
+        }
+      });
+    }
+
+    ['pointerdown', 'touchstart', 'click'].forEach(function (evento) {
+      raiz.addEventListener(evento, destravarVideos, { passive: true });
+    });
+
     btnAnterior.addEventListener('click', function () { irPara(atual - 1); });
     btnProximo.addEventListener('click', function () { irPara(atual + 1); });
 
