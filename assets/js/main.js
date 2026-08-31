@@ -210,105 +210,112 @@
   }
 
   /* ---------- Carrossel de vídeos ---------- */
-
-  /**
-   * Um único elemento <video> serve todos os vídeos, trocando a fonte a cada
-   * passagem. É o que permite a emenda automática: uma vez que a pessoa deu
-   * play, esse elemento fica autorizado a tocar, e a autorização acompanha as
-   * trocas de fonte. Com um elemento por vídeo, o Safari do iPhone barraria a
-   * reprodução do seguinte, por não ter vindo de um toque.
-   */
   function montarCarrossel(videos) {
     var raiz = document.querySelector('[data-carrossel]');
     var aviso = document.querySelector('[data-vazio-videos]');
-    if (!raiz || !videos.length) return; // sem vídeos, fica o aviso de pasta vazia
+    if (!raiz) return;
+
+    if (!videos.length) return; // mantém o aviso de pasta vazia
 
     aviso.hidden = true;
     raiz.hidden = false;
 
-    var palco = raiz.querySelector('[data-palco]');
-    var player = raiz.querySelector('[data-video]');
-    var legendaTitulo = raiz.querySelector('[data-legenda-titulo]');
-    var legendaDetalhe = raiz.querySelector('[data-legenda-detalhe]');
+    var trilho = raiz.querySelector('[data-trilho]');
     var pontos = raiz.querySelector('[data-pontos]');
     var contador = raiz.querySelector('[data-contador]');
     var btnAnterior = raiz.querySelector('[data-anterior]');
     var btnProximo = raiz.querySelector('[data-proximo]');
-    var atual = -1;
+    var atual = 0;
 
-    // com muitos vídeos a fileira de pontos vira poluição: fica só o contador
-    var listaPontos = [];
-    if (videos.length <= 20) {
-      videos.forEach(function (video, i) {
+    videos.forEach(function (video, i) {
+      var slide = document.createElement('div');
+      slide.className = 'carrossel__slide';
+
+      var el = document.createElement('video');
+      el.controls = true;
+      el.playsInline = true;
+      el.preload = i === 0 ? 'metadata' : 'none';
+      el.setAttribute('controlsList', 'nodownload');
+      if (i === 0) el.src = video.src; // os demais carregam sob demanda
+      el.dataset.src = video.src;
+
+      // fim do vídeo: emenda no próximo, como uma playlist
+      el.addEventListener('ended', function () {
+        if (i !== atual) return;                 // só quem está em exibição manda
+        if (atual >= videos.length - 1) return;  // no último, para por aqui
+        irPara(atual + 1, true);
+      });
+
+      slide.appendChild(el);
+
+      var legenda = document.createElement('p');
+      legenda.className = 'carrossel__legenda';
+      var titulo = document.createElement('b');
+      titulo.textContent = video.legenda || 'Vídeo ' + (i + 1) + ' de ' + videos.length;
+      var detalhe = document.createElement('span');
+      detalhe.textContent = video.legenda
+        ? 'Vídeo ' + (i + 1) + ' de ' + videos.length + (video.data ? ' · ' + video.data : '')
+        : video.data || video.nome;
+      legenda.appendChild(titulo);
+      legenda.appendChild(detalhe);
+      slide.appendChild(legenda);
+
+      trilho.appendChild(slide);
+
+      // com muitos vídeos a fileira de pontos vira poluição: fica só o contador
+      if (videos.length <= 20) {
         var ponto = document.createElement('button');
         ponto.type = 'button';
         ponto.className = 'carrossel__ponto';
         ponto.setAttribute('aria-label', 'Ir para o vídeo ' + (i + 1));
         ponto.addEventListener('click', function () { irPara(i); });
         pontos.appendChild(ponto);
-        listaPontos.push(ponto);
-      });
-    }
+      }
+    });
+
+    var slides = Array.prototype.slice.call(trilho.children);
+    var listaPontos = Array.prototype.slice.call(pontos.children);
 
     function irPara(indice, tocar) {
       atual = Math.max(0, Math.min(indice, videos.length - 1));
-      var video = videos[atual];
+      trilho.style.transform = 'translateX(' + (-100 * atual) + '%)';
+      contador.textContent = (atual + 1) + ' / ' + videos.length;
 
-      palco.classList.add('is-trocando');
-      player.src = video.src;
-      player.load();
+      listaPontos.forEach(function (p, i) {
+        p.classList.toggle('is-ativo', i === atual);
+      });
+
+      slides.forEach(function (slide, i) {
+        var video = slide.querySelector('video');
+        // o seguinte também é preparado, para a emenda não ter espera
+        if (i === atual || i === atual + 1) {
+          if (!video.getAttribute('src')) video.setAttribute('src', video.dataset.src);
+          video.preload = 'metadata';
+        }
+        if (i !== atual && !video.paused) {
+          video.pause(); // não deixa dois vídeos tocando juntos
+        }
+      });
 
       if (tocar) {
-        var reproducao = player.play();
-        // navegador pode recusar a reprodução automática; aí fica pausado
+        var emExibicao = slides[atual].querySelector('video');
+        emExibicao.currentTime = 0;
+        var reproducao = emExibicao.play();
+        // o navegador pode recusar a reprodução automática; aí fica pausado
         if (reproducao && reproducao.catch) reproducao.catch(function () {});
       }
-
-      legendaTitulo.textContent =
-        video.legenda || 'Vídeo ' + (atual + 1) + ' de ' + videos.length;
-      legendaDetalhe.textContent = video.legenda
-        ? 'Vídeo ' + (atual + 1) + ' de ' + videos.length + (video.data ? ' · ' + video.data : '')
-        : video.data || video.nome;
-
-      contador.textContent = (atual + 1) + ' / ' + videos.length;
-      listaPontos.forEach(function (p, i) { p.classList.toggle('is-ativo', i === atual); });
 
       btnAnterior.disabled = atual === 0;
       btnProximo.disabled = atual === videos.length - 1;
     }
 
-    function revelar() { palco.classList.remove('is-trocando'); }
-    player.addEventListener('loadeddata', revelar);
-    player.addEventListener('error', revelar);
-
-    // fim do vídeo: emenda no próximo, como uma playlist
-    player.addEventListener('ended', function () {
-      if (atual >= videos.length - 1) return; // no último, para por aqui
-      irPara(atual + 1, true);
-    });
-
-    // perto do fim, adianta o download do seguinte para a emenda não engasgar
-    var adiantados = {};
-    player.addEventListener('timeupdate', function () {
-      if (atual >= videos.length - 1 || !player.duration) return;
-      if (player.duration - player.currentTime > 8) return;
-
-      var proximo = videos[atual + 1].src;
-      if (adiantados[proximo]) return;
-      adiantados[proximo] = true;
-
-      var link = document.createElement('link');
-      link.rel = 'prefetch';
-      link.href = proximo;
-      document.head.appendChild(link);
-    });
-
     btnAnterior.addEventListener('click', function () { irPara(atual - 1); });
     btnProximo.addEventListener('click', function () { irPara(atual + 1); });
 
+    // Teclado (quando o carrossel está em foco/visível)
     raiz.addEventListener('keydown', function (e) {
-      if (e.key === 'ArrowLeft') irPara(atual - 1);
-      if (e.key === 'ArrowRight') irPara(atual + 1);
+      if (e.key === 'ArrowLeft') { irPara(atual - 1); }
+      if (e.key === 'ArrowRight') { irPara(atual + 1); }
     });
 
     // Arrastar com o dedo

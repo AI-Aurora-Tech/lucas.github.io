@@ -383,12 +383,17 @@ code {
   background: rgba(2, 10, 6, .8);
   box-shadow: var(--sombra);
 }
-.carrossel__palco {
-  padding: 14px 14px 0;
-  transition: opacity .18s ease;
+.carrossel__trilho {
+  display: flex;
+  transition: transform .45s cubic-bezier(.22, .8, .3, 1);
+  will-change: transform;
 }
-.carrossel__palco.is-trocando { opacity: 0; }
-.carrossel__palco video {
+.carrossel__slide {
+  flex: 0 0 100%;
+  min-width: 100%;
+  padding: 14px;
+}
+.carrossel__slide video {
   width: 100%;
   max-height: min(70vh, 620px);
   border-radius: 12px;
@@ -401,7 +406,7 @@ code {
   justify-content: space-between;
   gap: 12px;
   flex-wrap: wrap;
-  margin: 10px 16px 14px;
+  margin: 10px 2px 0;
   font-size: .78rem;
   color: var(--tinta-suave);
 }
@@ -577,7 +582,7 @@ code {
   .carrossel__seta--ant { grid-area: ant; }
   .carrossel__seta--prox { grid-area: prox; }
   .carrossel__rodape { grid-area: rodape; margin-top: 0; }
-  .carrossel__palco { padding: 10px 10px 0; }
+  .carrossel__slide { padding: 10px; }
   .galeria { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
   .topo__marca span { display: none; }
   .topo { padding: 10px 14px; gap: 10px; }
