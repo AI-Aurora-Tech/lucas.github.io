@@ -184,7 +184,13 @@
       <button class="carrossel__seta carrossel__seta--ant" type="button" data-anterior aria-label="Vídeo anterior">‹</button>
 
       <div class="carrossel__janela">
-        <div class="carrossel__trilho" data-trilho></div>
+        <div class="carrossel__palco" data-palco>
+          <video data-video controls playsinline preload="metadata" controlsList="nodownload"></video>
+        </div>
+        <p class="carrossel__legenda">
+          <b data-legenda-titulo></b>
+          <span data-legenda-detalhe></span>
+        </p>
       </div>
 
       <button class="carrossel__seta carrossel__seta--prox" type="button" data-proximo aria-label="Próximo vídeo">›</button>
