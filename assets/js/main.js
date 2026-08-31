@@ -209,6 +209,46 @@
       });
   }
 
+  /* ---------- Tela cheia ---------- */
+
+  /** Qual elemento está ocupando a tela cheia, seja qual for o navegador. */
+  function elementoEmTelaCheia() {
+    return (
+      document.fullscreenElement ||
+      document.webkitFullscreenElement ||
+      document.mozFullScreenElement ||
+      document.msFullscreenElement ||
+      null
+    );
+  }
+
+  function estaEmTelaCheia(video) {
+    // o iPhone não entra no fullscreen do documento: marca no próprio vídeo
+    return elementoEmTelaCheia() === video || video.webkitDisplayingFullscreen === true;
+  }
+
+  /**
+   * Passa a tela cheia para outro vídeo. Enquanto a tela cheia já está em uso,
+   * os navegadores aceitam a troca sem exigir um novo clique.
+   */
+  function pedirTelaCheia(video) {
+    var pedir =
+      video.requestFullscreen ||
+      video.webkitRequestFullscreen ||
+      video.webkitEnterFullscreen ||
+      video.mozRequestFullScreen ||
+      video.msRequestFullscreen;
+
+    if (!pedir) return;
+
+    try {
+      var pedido = pedir.call(video);
+      if (pedido && pedido.catch) pedido.catch(function () {});
+    } catch (e) {
+      // sem tela cheia, o vídeo simplesmente segue na janela
+    }
+  }
+
   /* ---------- Carrossel de vídeos ---------- */
   function montarCarrossel(videos) {
     var raiz = document.querySelector('[data-carrossel]');
@@ -243,7 +283,11 @@
       el.addEventListener('ended', function () {
         if (i !== atual) return;                 // só quem está em exibição manda
         if (atual >= videos.length - 1) return;  // no último, para por aqui
+
+        // quem estava assistindo em tela cheia continua em tela cheia
+        var emTelaCheia = estaEmTelaCheia(el);
         irPara(atual + 1, true);
+        if (emTelaCheia) pedirTelaCheia(slides[atual].querySelector('video'));
       });
 
       slide.appendChild(el);
